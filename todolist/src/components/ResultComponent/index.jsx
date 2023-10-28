@@ -1,45 +1,8 @@
 import styles from "./style.module.css";
 
-const Index = ({ activeTab }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [items, setItems] = useState([]);
-
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleAddItem = () => {
-    if (inputValue.trim() !== "") {
-      setItems([...items, { text: inputValue, showTick: false }]);
-      setInputValue("");
-    }
-  };
-
-  const handleToggleTick = (index) => {
-    const newItems = [...items];
-    newItems[index].showTick = !newItems[index].showTick;
-    setItems(newItems);
-  };
-
-  const handleDeleteItem = (index) => {
-    const newItems = [...items];
-    newItems.splice(index, 1);
-    setItems(newItems);
-  };
-
-  const handleDeleteAllChecked = () => {
-    const newItems = items.filter((item) => !item.showTick);
-    setItems(newItems);
-  };
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleAddItem();
-    }
-  };
-
+const Index = () => {
   return (
     <div className='body'>
-      {activeTab !== "completed" && (
         <div>
           <div className={styles.form}>
             <input
@@ -47,31 +10,20 @@ const Index = ({ activeTab }) => {
               id='month-input'
               className={styles.formControl}
               placeholder='add details'
-              value={inputValue}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
             />
             <button
               className={styles.btn}
-              onClick={handleAddItem}
             >
               Add
             </button>
           </div>
-          {activeTab === "all" && (
             <div>
-              {items.map((item, index) => (
                 <div
-                  key={index}
                   className={styles.result}
                 >
                   <div
-                    className={`${styles.checkBox} ${
-                      item.showTick ? styles.checkboxItem : ""
-                    }`}
-                    onClick={() => handleToggleTick(index)}
+                    className={styles.checkBox}
                   >
-                    {item.showTick && (
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         height='1em'
@@ -79,56 +31,23 @@ const Index = ({ activeTab }) => {
                       >
                         <path d='M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z' />
                       </svg>
-                    )}
                   </div>
-                  <div
-                    className={`${styles.textResult} ${
-                      item.showTick ? styles.textResult_Item : ""
-                    }`}
-                  >
-                    {item.text}
-                  </div>
+                   <div className={styles.textResult}>Hồ Văn Đi</div>
                 </div>
-              ))}
             </div>
-          )}
-
-          {activeTab === "active" && (
             <div>
-              {items.map(
-                (item, index) =>
-                  !item.showTick && (
-                    <div
-                      key={index}
-                      className={styles.result}
-                    >
+            <div className={styles.result}>
                       <div
-                        className={`${styles.checkBox} ${
-                          item.showTick ? styles.checkboxItem : ""
-                        }`}
-                        onClick={() => handleToggleTick(index)}
+                        className={styles.checkBox} 
                       ></div>
-                      <div className={styles.textResult}>{item.text}</div>
+                      <div className={styles.textResult}>Hồ Văn Đi</div>
                     </div>
-                  )
-              )}
             </div>
-          )}
         </div>
-      )}
-
-      {activeTab === "completed" && (
         <div>
-          {items.map(
-            (item, index) =>
-              item.showTick && (
-                <div
-                  key={index}
-                  className={styles.result}
-                >
+          <div className={styles.result}>
                   <div
                     className={`${styles.checkBox} ${styles.checkboxItem}`}
-                    onClick={() => handleToggleTick(index)}
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
@@ -141,11 +60,10 @@ const Index = ({ activeTab }) => {
                   <div
                     className={`${styles.textResult} ${styles.textResult_Item}`}
                   >
-                    {item.text}
+                 Hồ Văn Đi
                   </div>
                   <div className={styles.iconDelete}>
                     <svg
-                      onClick={() => handleDeleteItem(index)}
                       xmlns='http://www.w3.org/2000/svg'
                       height='1em'
                       viewBox='0 0 448 512'
@@ -154,11 +72,8 @@ const Index = ({ activeTab }) => {
                     </svg>
                   </div>
                 </div>
-              )
-          )}
           <div
             className={styles.btnDeleteall}
-            onClick={handleDeleteAllChecked}
           >
             <div className={styles.iconDelete}>
               <svg
@@ -172,7 +87,6 @@ const Index = ({ activeTab }) => {
             <div className={styles.textDelete}>delete all</div>
           </div>
         </div>
-      )}
     </div>
   );
 };
